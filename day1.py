@@ -73,21 +73,3 @@ def get_sum_of_three_measurement_sliding_window(measurements):
 sums_of_three_measurement_sliding_window = get_sum_of_three_measurement_sliding_window(measurements)
 result = compare_measurements(sums_of_three_measurement_sliding_window)
 print(calculate_total(result))
-
-
-
-
-    
-
-
-
-
-    
-
-
-
-
-
-
-
-

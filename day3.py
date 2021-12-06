@@ -36,7 +36,6 @@ def find_oxygen_generator_rating(df):
                 df = df.loc[df[col].str.startswith('1')]
             elif df[col].value_counts().idxmax() == '0':
                 df = df.loc[df[col].str.startswith('0')]
-        print(df)
     return df.to_string(header=False,index=False,index_names=False).split(' ')
 
 def find_CO2_scrubber_rating(df):
@@ -53,7 +52,6 @@ def find_CO2_scrubber_rating(df):
                 df = df.loc[df[col].str.startswith('1')]
             elif df[col].value_counts().idxmin() == '0':
                 df = df.loc[df[col].str.startswith('0')]
-        print(df)
     return df.to_string(header=False,index=False,index_names=False).split(' ')
 
 def find_life_support_rating(oxygen_generator_rating, CO2_scrubber_rating):
@@ -79,13 +77,9 @@ Part Two
 
 oxygen_generator_rating_binary = find_oxygen_generator_rating(df)
 oxygen_generator_rating_decimal = convert_binary_to_decimal(oxygen_generator_rating_binary)
-print(oxygen_generator_rating_binary)
-print(oxygen_generator_rating_decimal)
 
 CO2_scrubber_rating_binary = find_CO2_scrubber_rating(df)
 CO2_scrubber_rating_deimal = convert_binary_to_decimal(CO2_scrubber_rating_binary)
-print(CO2_scrubber_rating_binary)
-print(CO2_scrubber_rating_deimal)
 
 life_support_rating = find_life_support_rating(oxygen_generator_rating_decimal, CO2_scrubber_rating_deimal)
 print("Life support rating of the submarine is", life_support_rating)

@@ -51,6 +51,22 @@ def find_winner_id(results):
                 winner_id = b
     return winner_id
 
+def find_which_board_will_win_last(results):
+    longest = None
+    winner_id = None
+    
+    for b in results:
+        number_of_iteration = results[b]['iteration']
+        if not longest:
+            longest = number_of_iteration
+            winner_id = b
+        else:
+            if number_of_iteration > longest:
+                longest = number_of_iteration
+                winner_id = b
+    return winner_id
+
+
 
 def get_sum_of_all_unmarked_numbers(board_data):
     pos = np.where( board_data != 999)
@@ -60,6 +76,8 @@ def get_sum_of_all_unmarked_numbers(board_data):
         number = board_data[l[0],l[1]]
         sum += number
     return sum
+
+
 
 # Load Data
 with open('day4_input.txt', 'r') as f:
@@ -98,5 +116,11 @@ print("Part One", final_score)
 """
 Part Two
 """
+longest_board = find_which_board_will_win_last(results)
+longest_board_data = results[longest_board]['board_data']
+longest_winning_number = results[longest_board]['winning_number']
+sum_of_all_unmarked_numbers2 = get_sum_of_all_unmarked_numbers(longest_board_data)
+final_score2 = longest_winning_number * sum_of_all_unmarked_numbers2
+print("Part Two", final_score2)
 
 

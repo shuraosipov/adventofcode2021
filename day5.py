@@ -18,7 +18,6 @@ def calculate_diagonal_lines(x1,x2,y1,y2):
     dy = y2 - y1
     
     for i in range(1 + max(abs(dx),(dy))):
-        
         m = 1 if dx > 0 else -1 if dx < 0 else 0
         x = x1 + m * i
 

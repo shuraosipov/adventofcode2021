@@ -1,6 +1,4 @@
-
-from types import resolve_bases
-
+from collections import defaultdict, Counter
 
 def load_input(file) -> list:
     with open(file, 'r') as f:
@@ -8,23 +6,20 @@ def load_input(file) -> list:
         result = [int(x) for x in line.split(",")]
         return result
 
+fish_map = Counter(load_input('day6_input.txt'))
+#print(fish_map)
 
-fish_list = load_input('day6_input.txt')
-days = 80
-
-for day in range(days + 1):
-    if day == 0:
-        print("Initial state:", len(fish_list), "fish")
-    else:
-        
-        results = []
-        for f in fish_list:
-            if f == 0:
-                results.append(6)
-                results.append(8)
+def calculate_lanternfish_reproduction(fish_map,days=80):
+    for _ in range(days):
+        temp = defaultdict(int)
+        for f,count in fish_map.items():
+            if f==0:
+                temp[6] += count
+                temp[8] += count
             else:
-                results.append(f-1)
-        fish_list = results
-        print(f"After {day} days: {len(results)} fish")
-    
-print(f"After {days} days, there are a total of {len(fish_list)} fish")
+                temp[f-1] += count
+            fish_map = temp
+    return sum(fish_map.values())
+
+print(calculate_lanternfish_reproduction(fish_map, days=80))
+print(calculate_lanternfish_reproduction(fish_map, days=256))

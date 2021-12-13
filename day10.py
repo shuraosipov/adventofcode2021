@@ -1,37 +1,3 @@
-def remove_legit_chunks(s):
-    for c in chunks:
-        s = s.replace(c,"")
-    if any(c in s for c in chunks):
-        return remove_legit_chunks(s)
-    return s
-
-def find_illegal_character(line):
-    new_line = [x for x in line]
-    for i in range(len(new_line) -1):
-        if new_line[i] in open_chars and new_line[i+1] in close_chars:
-            if valid_pairs[new_line[i]] != new_line[i+1]:
-                #print(f"{line} -Expected '{valid_pairs[new_line[i]]}', but found '{new_line[i+1]}' instead")
-                illegal_character = new_line[i+1]
-                return illegal_character
-
-def is_compelete(s):
-    if any(c in s for c in close_chars):
-        return True
-    return False
-
-def find_closing_chars(s):
-    closing_chars = []
-    for c in s[::-1]:
-        closing_chars.append(valid_pairs[c])
-    return closing_chars
-
-def calcualte_score(chars):
-    score = 0
-    for c in chars:
-        score *= 5
-        score += autocomplete_scores[c]
-    return score
-
 chunks = ["[]","{}","()","<>"]
 open_chars = ['(','[','{','<']
 close_chars = [')',']','}','>']
@@ -56,6 +22,40 @@ autocomplete_scores = {
     '}':3,
     '>':4
 }
+
+def remove_legit_chunks(line):
+    for c in chunks:
+        line = line.replace(c,"")
+    if any(c in line for c in chunks):
+        return remove_legit_chunks(line)
+    return line
+
+def find_illegal_character(line):
+    new_line = [x for x in line]
+    for i in range(len(new_line) -1):
+        if new_line[i] in open_chars and new_line[i+1] in close_chars:
+            if valid_pairs[new_line[i]] != new_line[i+1]:
+                #print(f"{line} -Expected '{valid_pairs[new_line[i]]}', but found '{new_line[i+1]}' instead")
+                illegal_character = new_line[i+1]
+                return illegal_character
+
+def is_compelete(line):
+    if any(c in line for c in close_chars):
+        return True
+    return False
+
+def find_closing_chars(line):
+    closing_chars = []
+    for c in line[::-1]:
+        closing_chars.append(valid_pairs[c])
+    return closing_chars
+
+def calcualte_score(chars):
+    score = 0
+    for c in chars:
+        score *= 5
+        score += autocomplete_scores[c]
+    return score
 
 
 lines = []

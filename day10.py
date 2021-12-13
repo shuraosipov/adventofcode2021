@@ -14,12 +14,23 @@ def find_illegal_character(line):
                 illegal_character = new_line[i+1]
                 return illegal_character
 
-def check_if_complete(s):
+def is_compelete(s):
     if any(c in s for c in close_chars):
         return True
     return False
 
+def find_closing_chars(s):
+    closing_chars = []
+    for c in s[::-1]:
+        closing_chars.append(valid_pairs[c])
+    return closing_chars
 
+def calcualte_score(chars):
+    score = 0
+    for c in chars:
+        score *= 5
+        score += autocomplete_scores[c]
+    return score
 
 chunks = ["[]","{}","()","<>"]
 open_chars = ['(','[','{','<']
@@ -39,20 +50,35 @@ scores = {
     '>': 25137,
 }
 
+autocomplete_scores = {
+    ')':1,
+    ']':2,
+    '}':3,
+    '>':4
+}
+
 
 lines = []
 with open('day10_input.txt','r') as f:
     for line in f:
         lines.append(line.strip())
 
-# Part One
+ans1 = 0
+ans2 = []
 
-ans = 0
 for line in lines:
     new_line = remove_legit_chunks(line)
-    if check_if_complete(new_line):
-        illegal_char = find_illegal_character(new_line)
-        print(illegal_char)
-        ans += scores[illegal_char]
 
-print(ans)
+    # Part One
+    if is_compelete(new_line):
+        illegal_char = find_illegal_character(new_line)
+        ans1 += scores[illegal_char]
+    
+    # Part Two
+    if not is_compelete(new_line):
+        closing_chars = find_closing_chars(new_line)
+        score = calcualte_score(closing_chars)
+        ans2.append(score)
+
+print("Part One", ans1)
+print("Part Two", sorted(ans2)[len(ans2)//2])

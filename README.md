@@ -10,3 +10,4 @@ https://adventofcode.com/2021
 * Day 7 [solution](day7.py).
 * Day 8 [solution](day8.py).
 * Day 9 [solution](day9.py)
+* Day 10 [solution](day10.py)

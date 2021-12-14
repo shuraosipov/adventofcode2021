@@ -81,8 +81,8 @@ def increase_grid_by_one():
         grid[id] = [x+1 for x in i]
 
 def flash(oct):
-    global ans
-    ans += 1 
+    global ans1
+    ans1 += 1 
     oct.reset_energy_level()
     flushed.append((oct.x,oct.y))
     increase_adj_energy(oct)
@@ -108,36 +108,26 @@ def all_zeros():
     return False
 
 
-def part_one(steps, flashes, flushed):
-    for _ in range(1,steps):
-        flushed = []
-        
-        increase_grid_by_one()
-        
-        for r in range(R):
-            for c in range(C):
-                oct = Octopus(r,c)
-                if oct.get_energy_level() > 9:
-                    flash(oct)
-
-
-
-if __name__ == '__main__':
+def load_input():
     grid = []
     with open('solutions/day11_input.txt', 'r') as f:
         for line in f:
             grid.append([int(x) for x in line.strip()])
+    return grid
 
+
+if __name__ == '__main__':
+    grid = load_input()
+
+    ans1 = 0
+    
     R = len(grid)
     C = len(grid[0])
-    ans = 0
-    ans2 = 0
 
     for step in range(1,500):
         flushed = []
-        
         increase_grid_by_one()
-        
+
         for r in range(R):
             for c in range(C):
                 oct = Octopus(r,c)
@@ -150,7 +140,5 @@ if __name__ == '__main__':
 
     print('After step :', step)
     print_grid()
-    print("Part One:",ans)
-    print("Part Two:",ans2)
-
-    
+    print("Part One:",ans1)
+    print("Part Two:",ans2)  

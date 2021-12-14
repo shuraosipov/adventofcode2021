@@ -71,6 +71,7 @@ def get_adj_points(x, y):
 
     return adj_points
 
+
 def print_grid():
     for i in grid:
         print(i)
@@ -99,11 +100,7 @@ def increase_adj_energy(oct):
             flash(oct)
 
 def all_zeros():
-    total = 0
-    for i in grid:
-        total += i.count(0)
-    
-    if total == 100:
+    if sum(sum(a) for a in grid) == 0:
         return True
     return False
 

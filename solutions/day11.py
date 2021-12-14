@@ -73,7 +73,7 @@ def get_adj_points(x, y):
 
 def print_grid():
     for i in grid:
-     print(i)
+        print(i)
     print("\n")
 
 def increase_grid_by_one():
@@ -98,19 +98,18 @@ def increase_adj_energy(oct):
         if oct.get_energy_level() > 9:
             flash(oct)
 
-
+def all_zeros():
+    total = 0
+    for i in grid:
+        total += i.count(0)
     
-if __name__ == '__main__':
-    grid = []
-    with open('solutions/day11_input.txt', 'r') as f:
-        for line in f:
-            grid.append([int(x) for x in line.strip()])
+    if total == 100:
+        return True
+    return False
 
-    R = len(grid)
-    C = len(grid[0])
-    ans = 0
 
-    for step in range(1,101):
+def part_one(steps, flashes, flushed):
+    for _ in range(1,steps):
         flushed = []
         
         increase_grid_by_one()
@@ -121,8 +120,37 @@ if __name__ == '__main__':
                 if oct.get_energy_level() > 9:
                     flash(oct)
 
+
+
+if __name__ == '__main__':
+    grid = []
+    with open('solutions/day11_input.txt', 'r') as f:
+        for line in f:
+            grid.append([int(x) for x in line.strip()])
+
+    R = len(grid)
+    C = len(grid[0])
+    ans = 0
+    ans2 = 0
+
+    for step in range(1,500):
+        flushed = []
+        
+        increase_grid_by_one()
+        
+        for r in range(R):
+            for c in range(C):
+                oct = Octopus(r,c)
+                if oct.get_energy_level() > 9:
+                    flash(oct)
+
+        if all_zeros():
+            ans2 = step
+            break
+
     print('After step :', step)
     print_grid()
     print("Part One:",ans)
+    print("Part Two:",ans2)
 
     

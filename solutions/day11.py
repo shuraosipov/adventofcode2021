@@ -1,3 +1,5 @@
+from collections import deque
+
 grid = []
 with open('solutions/day11_input.txt', 'r') as f:
     for line in f:
@@ -100,20 +102,22 @@ class Octopus:
     def increase_energy_level(self):
         grid[self.x][self.y] += 1
 
+    def get_energy_level(self):
+        return grid[self.x][self.y]
+
 def increase_adj_energy(adj):
-    adj_to_flush = []
     
     for points in adj:
         x,y  = points[0], points[1]
         oct = Octopus(x,y)
         if (oct.x,oct.y) not in flushed:
             oct.increase_energy_level()
-        if oct.energy_level > 9:
-            adj_to_flush.append(oct)
+        if oct.get_energy_level() > 9:
+            adj_to_flash.append(oct)
         
         print_grid()
+        print("Adjacent to flash",adj_to_flash)
     
-    return adj_to_flush
 
 def flash(oct):
     oct.reset_energy_level()
@@ -122,12 +126,14 @@ def flash(oct):
     print_grid()
 
     adj_points = get_adj_points(oct.x,oct.y)
-    adj_to_flash = increase_adj_energy(adj_points)
+    increase_adj_energy(adj_points)
 
-    for adj in (adj_to_flash):
-        return flash(adj)
+    #print(adj_to_flash)
+    if len(adj_to_flash) > 0:
+        return flash(adj_to_flash.pop())
+   
 
-    return True
+    #return True
 
 for step in range(1,3):
     print("Increased by one")
@@ -135,12 +141,13 @@ for step in range(1,3):
     print_grid()
     
     flushed = []
+    adj_to_flash = deque()
     
     for r in range(R):
         for c in range(C):
             oct = Octopus(r,c)
             print(oct.energy_level, (oct.x, oct.y), oct.adj_points)
-            if oct.energy_level > 9:
+            if oct.get_energy_level() > 9:
                 flash(oct)
             
             

@@ -25,9 +25,15 @@ def find_all_paths(graph, start, end, path=[]):
         return paths
 
 
+# {'start': ['A', 'b'], 'A': ['c', 'b', 'end'], 'b': ['d', 'end']}
+# start with parent - start
+# for each child get subchilds and print child/subchild relation
+# start,A,c,A,b,A,end
+
+        
+
 graph = load_data()
 print(graph)
 
-print(find_all_paths(graph, 'start', 'end'))
+print(find_all_paths(graph, "start", "end"))
 
-    

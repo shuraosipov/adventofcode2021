@@ -1,9 +1,4 @@
-from collections import deque
-from functools import wraps
-from time import time
-
-def get_pairs(template):
-    return zip(template[1:], template)
+from typing import Counter
 
 def load_input():
     template = []
@@ -11,71 +6,42 @@ def load_input():
     with open('solutions/day14_input.txt', 'r') as f:
         for n, line in enumerate(f):
             value = line.strip()
-            if value and n == 0:
+            if n == 0:
                 template = value
             elif value:
-                pair, element = value.split("->")
-                rules[pair.strip()] = element.strip()
-    
+                pair, element = value.split(" -> ")
+                rules[pair] = element
     return (template,rules)
 
+def get_pairs(template):
+    pairs = Counter()
+    for i in range(0, len(template) - 1, 1):
+        pairs[template[i:i+2]] += 1
+    return pairs
 
+def count_chars(pairs, template, rules, steps=10):
+    for _ in range(steps):
+        new_pairs = Counter()
+        char_count = Counter()
+        for k,v in pairs.items():
+            p1,p2 = f"{k[0]}{rules[k]}", f"{rules[k]}{k[1]}"
+            new_pairs[p1] += v
+            new_pairs[p2] += v
+            char_count[k[0]] += v
+            char_count[rules[k]] += v
+        pairs = new_pairs
 
+    char_count[template[-1]] += 1
 
-def generate_template(pairs, rules):
-    answer = []
-    for p in pairs:
-        r = f"{p[0]}{p[1]}"
-        start, mid, end = p[0], rules[r], p[1]
-        
-        if len(answer) > 2:
-            #answer[-1] = start
-            answer.pop()
-            answer.extend([start,mid,end])
-            # answer.append(mid)
-            # answer.append(end)
-        else:
-            # answer.append(start)
-            # answer.append(mid)
-            # answer.append(end)
-            answer.extend([start,mid,end])
-            
-    return "".join(answer)
-
-
-def generate_polymer(template, pairs, steps=10):
-    #print("Template:     ",template)
-    for i in range(1,steps+1):
-        print(f"Step {i}:")
-        ts = time()
-        pairs = get_pairs(template)
-        te = time()
-        print(te-ts)
-        ts = time()
-        template = generate_template(pairs, rules)
-        te = time()
-        print(te-ts)
-        print(len(template))
-
-    print(f"Polymer length after {steps} steps is {len(template)}")
-    return template
-
-def get_answer(template):
-    result = {}
-    for i in set(template):
-        #print(i, template.count(i))
-        result[i] = template.count(i)
-
-    max_ = max(result.values())
-    min_ = min(result.values())
-
-    return max_ - min_
-
+    return max(char_count.values()) - min(char_count.values())
 
 template, rules = load_input()
 pairs = get_pairs(template)
-polymer = generate_polymer(template, pairs, steps=20)
-print(get_answer(polymer))
+part1 = count_chars(pairs, template, rules, steps=10)
+part2 = count_chars(pairs, template, rules, steps=40)
+
+print("Part One:", part1)
+print("Part Two:", part2)
 
 
 
@@ -83,9 +49,3 @@ print(get_answer(polymer))
 
 
 
-
-
-
-
-
-    

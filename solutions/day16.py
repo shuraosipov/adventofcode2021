@@ -38,8 +38,8 @@ def parse(binary_string, i, packet_depth):
             if binary_string[i-5] == '0':
                 return literal_value, i
     else:
-        len_id = get_len_type_id(binary_string, i)
         packets = []
+        len_id = get_len_type_id(binary_string, i)
         if len_id == 0:
             len_bits = get_length_of_the_sub_packets_in_bits(binary_string, i, len=15)
             start_i = i+7+15
@@ -98,7 +98,7 @@ hex_to_deci_map = {
 }
 
 binary_string = hex_to_deci(load_data())
-answer1 = 0      
-value, next_i  = parse(binary_string, 0, 0)
+answer1 = 0
+answer2, _  = parse(binary_string, 0, 0)
 print(answer1)
-print(value)
+print(answer2)

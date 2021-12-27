@@ -19,9 +19,9 @@ files = sorted(get_file_names(), key=get_num)
 
 mdFile = MdUtils(file_name='README.md', title='My solutions for Advent of Code λy.2021')
 mdFile.new_paragraph("https://adventofcode.com/2021")
+count = 1
 for file in files:
-    name = file.split(".")[0].capitalize()
     link = mdFile.new_inline_link(f"solutions/{file}", text="solution")
-    mdFile.new_line(text=f"* {name} {link}.")
-
+    mdFile.new_line(text=f"* Day {count} {link}.")
+    count += 1
 mdFile.create_md_file()

@@ -1,5 +1,4 @@
 from mdutils.mdutils import MdUtils
-from mdutils import Html
 import glob
 from posixpath import basename
 

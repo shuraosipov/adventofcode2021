@@ -20,4 +20,5 @@ https://adventofcode.com/2021
 * Day 14 [solution](solutions/day14.py).  
 * Day 15 [solution](solutions/day15.py).  
 * Day 16 [solution](solutions/day16.py).  
-* Day 17 [solution](solutions/day17.py).
+* Day 17 [solution](solutions/day17.py).  
+* Day 18 [solution](solutions/day18.py).
